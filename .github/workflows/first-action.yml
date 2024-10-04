@@ -11,17 +11,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Check out the repository code (Descarga de repositorio)
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-
       # Intermediate Step 
       - name: Imprimir
         run: echo ${{ secrets.AWS_ACCESS_KEY_ID }}
 
-      # Step 2: Deploy to S3
-      - name: Deploy to S3
-        uses: aws-actions/s3-sync@v3
+      - name: Checkout Repository & Upload to S3
+        uses: actions/checkout@v4
+        uses: bwcxyk/s3-sync-action@1.0.0
         with:
           args: --acl public-read --delete
         env:
