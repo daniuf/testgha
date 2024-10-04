@@ -15,6 +15,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v3
 
+      # Intermediate Step 
+      - name: Imprimir 
+          run: echo ${{ secrets.AWS_ACCESS_KEY_ID }}
+
       # Step 2: Deploy to S3
       - name: Deploy to S3
         uses: aws-actions/s3-sync@v3
@@ -24,7 +28,5 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           AWS_REGION: ${{ secrets.AWS_REGION }}
-          #SOURCE_DIR: 'build'          # Directory with built files
-          DEST_DIR: '/'                # Destination in S3 bucket
           BUCKET_NAME: ${{ secrets.S3_BUCKET }}
 
