@@ -1,10 +1,30 @@
-name: First Workflow
-on: workflow_dispatch
-jobs: 
-  first-job:
+name: Deploy Static Site to S3
+
+# Trigger the workflow on push to the main branch
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Paso1
-        run: echo "Hello World"
-      - name: Paso2
-        run: echo "Bye bye!"
+      # Step 1: Check out the repository code (Descarga de repositorio)
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      # Step 2: Deploy to S3
+      - name: Deploy to S3
+        uses: aws-actions/s3-sync@v3
+        with:
+          args: --acl public-read --delete
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          #SOURCE_DIR: 'build'          # Directory with built files
+          DEST_DIR: '/'                # Destination in S3 bucket
+          BUCKET_NAME: ${{ secrets.S3_BUCKET }}
+
