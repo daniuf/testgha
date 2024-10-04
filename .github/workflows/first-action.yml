@@ -14,8 +14,10 @@ jobs:
       - name: Imprimir
         run: echo ${{ secrets.AWS_ACCESS_KEY_ID }}
 
-      - name: Checkout Repository & Upload to S3
+      - name: Checkout Repository
         uses: actions/checkout@v4
+      
+      - name: Upload to S3
         uses: bwcxyk/s3-sync-action@1.0.0
         with:
           args: --acl public-read --delete
