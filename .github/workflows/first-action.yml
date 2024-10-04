@@ -9,15 +9,14 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
       # Intermediate Step 
       - name: Imprimir
         run: echo ${{ secrets.AWS_ACCESS_KEY_ID }}
 
       - name: Checkout Repository & Upload to S3
-        uses: actions/checkout@v4
-        uses: bwcxyk/s3-sync-action@1.0.0
+      - uses: actions/checkout@v4
+      - uses: bwcxyk/s3-sync-action@1.0.0
         with:
           args: --acl public-read --delete
         env:
